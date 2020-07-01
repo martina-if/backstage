@@ -4,6 +4,8 @@ app:
 
 backend:
   baseUrl: http://localhost:7000
+  lighthouseHostname: http://localhost:3003
+  gitOpsHostname: http://localhost:3008
   listen: 0.0.0.0:7000
   cors:
     origin: http://localhost:3000

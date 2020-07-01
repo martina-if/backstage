@@ -7,8 +7,8 @@ for URL in \
 ; do \
   curl \
     --location \
-    --request POST 'localhost:7000/catalog/locations' \
+    --request POST 'https://backend.backstage-demo.roadie.io/catalog/locations' \
     --header 'Content-Type: application/json' \
-    --data-raw "{\"type\": \"file\", \"target\": \"$(pwd)/sample-templates/${URL}/template.yaml\"}"
+    --data-raw "{\"type\": \"github\", \"target\": \"https://github.com/spotify/backstage/blob/master/plugins/scaffolder-backend/sample-templates/${URL}/template.yaml\"}"
   echo
 done

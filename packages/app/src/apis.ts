@@ -68,6 +68,8 @@ export const apis = (config: ConfigApi) => {
   console.log(`Creating APIs for ${config.getString('app.title')}`);
 
   const backendUrl = config.getString('backend.baseUrl');
+  const lighthouseUrl = config.getString('backend.lighthouseHostname');
+  const gitOpsUrl = config.getString('backend.gitOpsHostname');
 
   const builder = ApiRegistry.builder();
 
@@ -87,7 +89,7 @@ export const apis = (config: ConfigApi) => {
 
   builder.add(featureFlagsApiRef, new FeatureFlags());
 
-  builder.add(lighthouseApiRef, new LighthouseRestApi('http://localhost:3003'));
+  builder.add(lighthouseApiRef, new LighthouseRestApi(lighthouseUrl));
 
   const oauthRequestApi = builder.add(
     oauthRequestApiRef,
@@ -163,7 +165,7 @@ export const apis = (config: ConfigApi) => {
     }),
   );
 
-  builder.add(gitOpsApiRef, new GitOpsRestApi('http://localhost:3008'));
+  builder.add(gitOpsApiRef, new GitOpsRestApi(gitOpsUrl));
 
   builder.add(
     graphQlBrowseApiRef,

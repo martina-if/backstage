@@ -12,7 +12,7 @@ for URL in \
 ; do \
   curl \
     --location \
-    --request POST 'localhost:7000/catalog/locations' \
+    --request POST 'https://backend.backstage-demo.roadie.io/catalog/locations' \
     --header 'Content-Type: application/json' \
     --data-raw "{\"type\": \"github\", \"target\": \"https://github.com/spotify/backstage/blob/master/packages/catalog-model/examples/${URL}\"}"
   echo

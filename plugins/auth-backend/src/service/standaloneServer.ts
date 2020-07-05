@@ -15,6 +15,7 @@
  */
 
 import Knex from 'knex';
+import fs from 'fs';
 import { Server } from 'http';
 import { Logger } from 'winston';
 import { ConfigReader } from '@backstage/config';
@@ -33,11 +34,23 @@ export async function startStandaloneServer(
   const config = ConfigReader.fromConfigs(await loadConfig());
 
   const database = useHotMemoize(module, () => {
-    const knex = Knex({
-      client: 'sqlite3',
-      connection: ':memory:',
+    const databaseConnectionOptions = {
+      client: 'pg',
+      connection: {
+        database: process.env.PGDATABASE,
+        port: process.env.PGPORT ? Number(process.env.PGPORT) : 5432,
+        host: process.env.PGHOST,
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        ssl: {
+          ca: fs.readFileSync(String(process.env.PGPATH_TO_CA)),
+          rejectUnauthorized: true,
+        },
+      },
       useNullAsDefault: true,
-    });
+    }
+
+    const knex = Knex(databaseConnectionOptions);
     knex.client.pool.on('createSuccess', (_eventId: any, resource: any) => {
       resource.run('PRAGMA foreign_keys = ON', () => {});
     });

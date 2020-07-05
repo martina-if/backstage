@@ -30,6 +30,7 @@ import {
 import { ConfigReader, AppConfig } from '@backstage/config';
 import { loadConfig } from '@backstage/config-loader';
 import knex from 'knex';
+import fs from 'fs';
 import auth from './plugins/auth';
 import catalog from './plugins/catalog';
 import identity from './plugins/identity';
@@ -45,11 +46,24 @@ function makeCreateEnv(loadedConfigs: AppConfig[]) {
 
   return (plugin: string): PluginEnvironment => {
     const logger = getRootLogger().child({ type: 'plugin', plugin });
-    const database = knex({
-      client: 'sqlite3',
-      connection: ':memory:',
+
+    const options = {
+      client: 'pg',
+      connection: {
+        database: process.env.PGDATABASE,
+        port: process.env.PGPORT ? Number(process.env.PGPORT) : 5432,
+        host: process.env.PGHOST,
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        ssl: {
+          ca: fs.readFileSync(String(process.env.PGPATH_TO_CA)),
+          rejectUnauthorized: true,
+        },
+      },
       useNullAsDefault: true,
-    });
+    }
+
+    const database = knex(options);
     database.client.pool.on('createSuccess', (_eventId: any, resource: any) => {
       resource.run('PRAGMA foreign_keys = ON', () => {});
     });

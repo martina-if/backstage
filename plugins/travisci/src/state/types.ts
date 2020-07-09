@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export const GET_BUILDS = 'GET_BUILDS';
 
-import { createDevApp } from '@backstage/dev-utils';
-import { plugin } from '../src/plugin';
+export type Build = {
+  id: number;
+  state: string;
+};
 
-createDevApp()
-  .registerPlugin(plugin)
-  // .registerApiFactory({
-  // deps: {},
-  // factory: () => undefined,
-  // implements: undefined,
-  // })
-  .registerPlugin(plugin)
-  .render();
+export type Action = {
+  type: 'GET_BUILDS';
+  payload: Build;
+};
+
+export type State = Build;

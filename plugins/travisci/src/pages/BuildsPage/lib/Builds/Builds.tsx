@@ -13,18 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import React, { FC } from 'react';
+import { CITable } from '../CITable';
+import { useBuilds } from '../../../../state';
 
-import { createPlugin, createRouteRef } from '@backstage/core';
-import { App } from './components/App';
-
-export const rootRouteRef = createRouteRef({
-  path: '/travisci',
-  title: 'travisci',
-});
-
-export const plugin = createPlugin({
-  id: 'travisci',
-  register({ router }) {
-    router.addRoute(rootRouteRef, App);
-  },
-});
+export const Builds: FC<{}> = () => {
+  const [
+    { total, loading, value, projectName, page, pageSize },
+    { setPage, retry, setPageSize },
+  ] = useBuilds();
+  return (
+    <CITable
+      total={total}
+      loading={loading}
+      retry={retry}
+      builds={value ?? []}
+      projectName={projectName}
+      page={page}
+      onChangePage={setPage}
+      pageSize={pageSize}
+      onChangePageSize={setPageSize}
+    />
+  );
+};

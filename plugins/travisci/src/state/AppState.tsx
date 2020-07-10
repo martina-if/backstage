@@ -26,6 +26,7 @@ export const AppContext = React.createContext<[State, Dispatch<Action>]>(
 );
 
 const getBuilds = () => {
+  // eslint-disable-next-line consistent-return
   return async (dispatch: Dispatch<any>) => {
     try {
       const result = await fetch('https://api.travis-ci.com/builds', {

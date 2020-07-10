@@ -20,9 +20,9 @@ import { plugin } from '../src/plugin';
 createDevApp()
   .registerPlugin(plugin)
   // .registerApiFactory({
-  // deps: {},
-  // factory: () => undefined,
-  // implements: undefined,
+  //   deps: {},
+  //   factory: () => ,
+  //   implements: undefined,
   // })
   .registerPlugin(plugin)
   .render();

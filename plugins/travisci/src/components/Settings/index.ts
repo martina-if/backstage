@@ -13,18 +13,4 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import { createPlugin, createRouteRef } from '@backstage/core';
-import { App } from './components/App';
-
-export const rootRouteRef = createRouteRef({
-  path: '/travisci',
-  title: 'travisci',
-});
-
-export const plugin = createPlugin({
-  id: 'travisci',
-  register({ router }) {
-    router.addRoute(rootRouteRef, App);
-  },
-});
+export { default as Settings } from './Settings';

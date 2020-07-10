@@ -13,5 +13,5 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-export { default } from './ExampleComponent';
+export { CITable } from './CITable';
+export type { CITableBuildInfo } from './CITable';

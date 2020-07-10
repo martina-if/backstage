@@ -26,16 +26,15 @@ export const AppContext = React.createContext<[State, Dispatch<Action>]>(
 );
 
 const getBuilds = () => {
-  return async () => {
+  return async (dispatch: Dispatch<any>) => {
     try {
-      return await fetch('https://api.travis-ci.com/builds', {
+      const result = await fetch('https://api.travis-ci.com/builds', {
         headers: {
           Authorization: 'token QIWw2oe09G7EaqAdo_wNZA',
           'Travis-Api-Version': '3',
         },
-      })
-        .then(response => response)
-        .then(json => json);
+      });
+      return dispatch({ type: GET_BUILDS, payload: result.json() });
     } catch (e) {
       return e;
     }

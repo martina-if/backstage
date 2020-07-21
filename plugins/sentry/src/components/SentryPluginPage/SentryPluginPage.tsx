@@ -30,7 +30,7 @@ import { ToggleButton, ToggleButtonGroup } from '@material-ui/lab';
 const SentryPluginPage: FC<{}> = () => {
   const [statsFor, setStatsFor] = useState<'12h' | '24h'>('12h');
   const toggleStatsFor = () => setStatsFor(statsFor === '12h' ? '12h' : '24h');
-  const sentryProjectId = 'sample-sentry-project-id';
+  const sentryProjectId = 'sample-service';
 
   return (
     <Page theme={pageTheme.tool}>

@@ -188,7 +188,7 @@ export const EntityPage: FC<{}> = () => {
               </Grid>
               <Grid item sm={8}>
                 <SentryIssuesWidget
-                  sentryProjectId="sample-sentry-project-id"
+                  sentryProjectId="sample-service"
                   statsFor="24h"
                 />
               </Grid>

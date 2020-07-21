@@ -24,7 +24,7 @@ for your new plugin directly by navigating to
 `http://localhost:3000/my-plugin`._
 
 <p align='center'>
-    <img src='https://github.com/spotify/backstage/raw/master/docs/getting-started/my-plugin_screenshot.png' width='600' alt='my plugin'>
+    <img src='https://github.com/spotify/backstage/raw/master/docs/plugins/my-plugin_screenshot.png' width='600' alt='my plugin'>
 </p>
 
 You can also serve the plugin in isolation by running `yarn start` in the plugin
@@ -40,4 +40,4 @@ for it can be found inside the plugin's `dev/` directory.
 
 [Next Step - Structure of a plugin](structure-of-a-plugin.md)
 
-[Back to Getting Started](README.md)
+[Back to Getting Started](../README.md)

@@ -13,15 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+exports.up = function up(knex) {
+  return knex.schema.raw(`DROP VIEW location_update_log_latest;`).raw(`
+  CREATE VIEW location_update_log_latest AS
+  SELECT t1.* FROM location_update_log t1
+  JOIN 
+  (
+     SELECT location_id, MAX(created_at) AS MAXDATE
+     FROM location_update_log
+     GROUP BY location_id
+  ) t2
+  ON t1.location_id = t2.location_id
+  AND t1.created_at = t2.MAXDATE
+  GROUP BY t1.location_id
+  ORDER BY created_at DESC;
+`);
+};
 
-export { HigherOrderOperations } from './HigherOrderOperations';
-export { LocationReaders } from './LocationReaders';
-export type {
-  AddLocationResult,
-  HigherOrderOperation,
-  LocationReader,
-  ReadLocationEntity,
-  ReadLocationError,
-  ReadLocationResult,
-} from './types';
-export * from './processors';
+exports.down = function down(knex) {
+  knex.schema.raw(`DROP VIEW location_update_log_latest;`);
+};

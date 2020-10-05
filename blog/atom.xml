@@ -2,12 +2,40 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://backstage.io/blog</id>
     <title>Backstage Blog</title>
-    <updated>2020-09-23T06:00:00.000Z</updated>
+    <updated>2020-09-30T06:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://backstage.io/blog"/>
     <subtitle>The best place to stay up-to-date with the latest Backstage news and events.</subtitle>
     <logo>https://backstage.io/undefined</logo>
     <rights>Copyright © 2020 Spotify AB</rights>
+    <entry>
+        <title type="html"><![CDATA[The Plugin Marketplace is open]]></title>
+        <id>https://backstage.io/blog/2020/09/30/plugin-marketplace.html</id>
+        <link href="https://backstage.io/blog/2020/09/30/plugin-marketplace.html"/>
+        <updated>2020-09-30T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p>Backstage has an ambitious goal: to provide engineers with the best possible developer experience.</p>
+<p>A great developer experience leads to happy, creative, and productive engineers. Our belief is that engineers should not have to be experts in various infrastructure tools or disciplines (e.g., machine learning or backend) to be productive. Infrastructure should be abstracted away, so that developers can spend more cycles building and testing, quickly and safely. Backstage unifies all your infrastructure tooling, services, and documentation to create a streamlined development environment from end to end.</p>
+<p>Now you may be thinking, “Yeah, sure, that sounds nice and all, but how does Backstage actually abstract away infrastructure?” The short answer: <a href="https://backstage.io/plugins">plugins</a>.</p>
+<p><img src="https://backstage.io/img/cards-plugins.png" alt="plugins"></p>
+]]></summary>
+        <author>
+            <name>Stefan Ålund</name>
+            <uri>https://twitter.com/stalund</uri>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to design for Backstage (even if you’re not a designer)]]></title>
+        <id>https://backstage.io/blog/2020/09/30/backstage-design-system.html</id>
+        <link href="https://backstage.io/blog/2020/09/30/backstage-design-system.html"/>
+        <updated>2020-09-30T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[<p><img src="/blog/assets/backstage-DS-header.png" alt="img"></p>
+<p>We are excited to launch the Backstage Design System, which includes a <a href="https://www.figma.com/community/file/850673348101741100">Figma UI kit</a>, a rich set of <a href="http://backstage.io/storybook">reusable code components</a> on Storybook, and <a href="https://backstage.io/docs/dls/design">Guidelines</a> for designers and developers as they build plugins for Backstage.</p>
+]]></summary>
+        <author>
+            <name>Kat Zhou</name>
+            <uri>http://twitter.com/katherinemzhou</uri>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Backstage has been accepted into the CNCF Sandbox]]></title>
         <id>https://backstage.io/blog/2020/09/23/backstage-cncf-sandbox.html</id>

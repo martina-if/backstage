@@ -133,7 +133,7 @@ export function createApp(options?: AppOptions) {
     defaultApis,
   });
 
+  app.setupGoogleAnalytics();
   app.verify();
-
   return app;
 }

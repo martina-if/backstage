@@ -38,6 +38,23 @@ catalog:
 auth:
   providers:
     microsoft: null
+    github:
+      development:
+        clientId:
+          $env: AUTH_GITHUB_CLIENT_ID
+        clientSecret:
+          $env: AUTH_GITHUB_CLIENT_SECRET
+
+kubernetes:
+  serviceLocatorMethod: 'multiTenant'
+  clusterLocatorMethods:
+    - 'config'
+  clusters: []
+
+rollbar:
+  organization: my-company
+  accountToken:
+    $env: ROLLBAR_ACCOUNT_TOKEN
 
 scaffolder:
   azure: null

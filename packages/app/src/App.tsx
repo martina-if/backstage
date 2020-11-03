@@ -19,7 +19,7 @@ import {
   AlertDisplay,
   OAuthRequestDialog,
   SignInPage,
-  createRouteRef,
+  createRouteRef, AppConfigLoader, useApi, githubAuthApiRef,
 } from '@backstage/core';
 import React, { FC } from 'react';
 import Root from './components/Root';
@@ -35,12 +35,46 @@ import { Router as LighthouseRouter } from '@backstage/plugin-lighthouse';
 import { Router as RegisterComponentRouter } from '@backstage/plugin-register-component';
 import { Router as SettingsRouter } from '@backstage/plugin-user-settings';
 import { Route, Routes, Navigate } from 'react-router';
-
 import { EntityPage } from './components/catalog/EntityPage';
+import {AppConfig} from "../../config/src";
+
+declare global {
+  interface Window {
+    _appConfig_: any;
+  }
+}
+
+export const dynamicConfigLoader: AppConfigLoader = async (
+) => {
+  console.log("the js embedded environment", window._appConfig_)
+  const appConfig = process.env.APP_CONFIG;
+  if (!appConfig) {
+    throw new Error('No static configuration provided');
+  }
+  if (!Array.isArray(appConfig)) {
+    throw new Error('Static configuration has invalid format');
+  }
+  const embeddedConfig = window._appConfig_
+  const backendUrl = embeddedConfig.backend.baseUrl;
+
+  // const auth = useApi(githubAuthApiRef);
+  // const identity = await auth.getBackstageIdentity({optional: true});
+  let url = `${backendUrl}/api/app-config`
+  // if (identity && identity.id) {
+  //   url = `${url}?usedId=${identity.id}`
+  // }
+  console.log('fetching dynamic configuration from: ' + url )
+  const resp = await fetch(url);
+  const data = await resp.json() as AppConfig[];
+  console.log(data)
+
+  return data;
+};
 
 const app = createApp({
   apis,
   plugins: Object.values(plugins),
+  configLoader: dynamicConfigLoader,
   components: {
     SignInPage: props => {
       return (
@@ -98,5 +132,7 @@ const App: FC<{}> = () => (
     </AppRouter>
   </AppProvider>
 );
+
+
 
 export default hot(App);

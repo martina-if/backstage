@@ -46,6 +46,8 @@ import techdocs from './plugins/techdocs';
 import graphql from './plugins/graphql';
 import app from './plugins/app';
 import { PluginEnvironment } from './types';
+import {findPaths} from "../../cli-common/src";
+import {loadConfig} from "../../config-loader/src";
 
 function makeCreateEnv(config: Config) {
   const root = getRootLogger();
@@ -89,6 +91,17 @@ async function main() {
   apiRouter.use('/kubernetes', await kubernetes(kubernetesEnv));
   apiRouter.use('/proxy', await proxy(proxyEnv));
   apiRouter.use('/graphql', await graphql(graphqlEnv));
+  apiRouter.get('/app-config', function (_, res) {
+    const paths = findPaths(__dirname);
+    loadConfig({
+      env: process.env.APP_ENV ?? process.env.NODE_ENV ?? 'development',
+      rootPaths: [paths.targetRoot, paths.targetDir],
+      shouldReadSecrets: true,
+    }).then(configs => {
+      console.log(configs)
+      return configs
+    }).then(configs => res.json(configs));
+  });
   apiRouter.use(notFoundHandler());
 
   const service = createServiceBuilder(module)

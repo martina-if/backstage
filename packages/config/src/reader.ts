@@ -75,6 +75,7 @@ export class ConfigReader implements Config {
   ) {}
 
   has(key: string): boolean {
+    console.log('------ has key: ' + key)
     const value = this.readValue(key);
     if (value !== undefined) {
       return true;
@@ -89,6 +90,7 @@ export class ConfigReader implements Config {
   }
 
   get(key?: string): JsonValue {
+    console.log('------ got key: ' + key)
     const value = this.getOptional(key);
     if (value === undefined) {
       throw new Error(errors.missing(this.fullKey(key ?? '')));

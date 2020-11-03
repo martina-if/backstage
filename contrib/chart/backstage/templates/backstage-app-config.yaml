@@ -25,4 +25,19 @@ data:
   APP_CONFIG_auth_providers_gitlab_development_appOrigin: {{ .Values.appConfig.auth.providers.gitlab.development.appOrigin | quote | quote }}
   APP_CONFIG_auth_providers_okta_development_appOrigin: {{ .Values.appConfig.auth.providers.okta.development.appOrigin | quote | quote }}
   APP_CONFIG_auth_providers_oauth2_development_appOrigin: {{ .Values.appConfig.auth.providers.oauth2.development.appOrigin | quote | quote }}
-
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "backstage.fullname" . }}-app-basic-config
+data:
+  env-config.js: |
+    window._appConfig_ = {
+      app: {
+        title: "Martinaaaa backstage",
+        baseUrl: window.location.hostname
+      },
+      backend: {
+        baseUrl: ""
+      }
+    }

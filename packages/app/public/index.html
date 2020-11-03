@@ -47,8 +47,8 @@
         min-height: 100%;
       }
     </style>
+    <script src="/env-config.js"></script>
     <title><%= app.title %></title>
-
     <% if (app.googleAnalyticsTrackingId && typeof app.googleAnalyticsTrackingId
     === 'string') { %>
     <script
@@ -56,6 +56,8 @@
       src="https://www.googletagmanager.com/gtag/js?id=<%= app.googleAnalyticsTrackingId %>"
     ></script>
     <script>
+      console.log(app)
+      console.log(window)
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);

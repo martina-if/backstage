@@ -55,7 +55,8 @@ import {
 } from '@backstage/plugin-catalog';
 import { Entity } from '@backstage/catalog-model';
 import { Button, Grid } from '@material-ui/core';
-import { EmptyState } from '@backstage/core';
+// import {configApiRef, EmptyState, useApi} from '@backstage/core';
+import {configApiRef, EmptyState, useApi} from '@backstage/core';
 import {
   EmbeddedRouter as LighthouseRouter,
   LastLighthouseAuditCard,
@@ -170,11 +171,17 @@ const ServiceEntityPage = ({ entity }: { entity: Entity }) => (
       title="CI/CD"
       element={<CICDSwitcher entity={entity} />}
     />
-    <EntityPageLayout.Content
-      path="/sentry"
-      title="Sentry"
-      element={<SentryRouter entity={entity} />}
-    />
+
+
+    { shouldDisplay('sentry') ?
+      <EntityPageLayout.Content
+        path="/sentry"
+        title="Sentry"
+        element={<SentryRouter entity={entity} />}
+      /> : null }
+
+
+
     <EntityPageLayout.Content
       path="/api/*"
       title="API"
@@ -185,21 +192,25 @@ const ServiceEntityPage = ({ entity }: { entity: Entity }) => (
       title="Docs"
       element={<DocsRouter entity={entity} />}
     />
+    { shouldDisplay('kubernetes') ?
     <EntityPageLayout.Content
       path="/kubernetes/*"
       title="Kubernetes"
       element={<KubernetesRouter entity={entity} />}
-    />
+    /> : null }
+
     <EntityPageLayout.Content
       path="/pull-requests"
       title="Pull Requests"
       element={<PullRequestsRouter entity={entity} />}
     />
+
+    { shouldDisplay('integrations.github') ?
     <EntityPageLayout.Content
       path="/code-insights"
       title="Code Insights"
       element={<GitHubInsightsRouter entity={entity} />}
-    />
+    /> : null }
   </EntityPageLayout>
 );
 
@@ -220,11 +231,12 @@ const WebsiteEntityPage = ({ entity }: { entity: Entity }) => (
       title="Lighthouse"
       element={<LighthouseRouter entity={entity} />}
     />
+    { shouldDisplay('sentry') ?
     <EntityPageLayout.Content
       path="/sentry"
       title="Sentry"
       element={<SentryRouter entity={entity} />}
-    />
+    /> : null }
     <EntityPageLayout.Content
       path="/docs/*"
       title="Docs"
@@ -262,7 +274,7 @@ const DefaultEntityPage = ({ entity }: { entity: Entity }) => (
   </EntityPageLayout>
 );
 
-export const EntityPage = () => {
+export const EntityPage = (/* TODO add here the configuration and pass it down */) => {
   const { entity } = useEntity();
   switch (entity?.spec?.type) {
     case 'service':
@@ -273,3 +285,38 @@ export const EntityPage = () => {
       return <DefaultEntityPage entity={entity} />;
   }
 };
+
+const shouldDisplay = (key: string) => {
+  // By default things are enabled
+  if (!key) {
+    return true
+  }
+  // if there is no config, things are enabled by default
+  const configApi = useApi(configApiRef);
+  if (configApi === undefined) {
+    return true
+  }
+  console.log(configApi.has(key))
+  return configApi.has(key);
+}
+
+// type OptionalElementProps = {
+//   configKey: string,
+// }
+
+// const OptionalElement : FunctionComponent<OptionalElementProps> = ({ configKey}) => {
+//   const configApi = useApi(configApiRef);
+//   if (configApi === undefined || configKey === undefined) {
+//     return <div>children</div>
+//   }
+//   if (configApi.has(configKey)) {
+//     return <div>children</div>
+//   } else {
+//     return null
+//   }
+// }
+
+// type myType = (_props: { path: string; title: string; element: JSX.Element }) =>
+//   null
+
+// const OptionalElement: EntityPageLayout.Content = (_props: { path: string; title: string; element: JSX.Element }) =>  null

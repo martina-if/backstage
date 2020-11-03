@@ -1,17 +1,20 @@
 app:
   title: Backstage Example App
-  baseUrl: http://localhost:7000
-  googleAnalyticsTrackingId: # UA-000000-0
-
+  baseUrl: http://localhost:3000
+  googleAnalyticsTrackingId: G-4ZD284MS13
 backend:
+  cors:
+    origin: http://localhost:3000
+    methods: [ GET, POST, PUT, DELETE ]
+    credentials: true
+  csp:
+    connect-src: [ "'self'", 'http:', 'https:' ]
   baseUrl: http://localhost:7000
   listen:
     port: 7000
   database:
     client: sqlite3
     connection: ':memory:'
-  csp:
-    connect-src: ["'self'", 'https:']
 
 # See README.md in the proxy-backend plugin for information on the configuration format
 proxy:
@@ -68,10 +71,10 @@ kubernetes:
   clusters: []
 
 integrations:
-  github:
-    - host: github.com
-      token:
-        $env: GITHUB_TOKEN
+#  github:
+#    - host: github.com
+#      token:
+#        $env: GITHUB_TOKEN
     ### Example for how to add your GitHub Enterprise instance using the API:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
@@ -113,22 +116,22 @@ catalog:
         #   token:
         #     $env: GHE_TOKEN
     ldapOrg:
-      ### Example for how to add your enterprise LDAP server
-      # providers:
-      #   - target: ldaps://ds.example.net
-      #     bind:
-      #       dn: uid=ldap-reader-user,ou=people,ou=example,dc=example,dc=net
-      #       secret: { $secret: { env: LDAP_SECRET } }
-      #     users:
-      #       dn: ou=people,ou=example,dc=example,dc=net
-      #       options:
-      #         filter: (uid=*)
-      #       map:
-      #         description: l
-      #     groups:
-      #       dn: ou=access,ou=groups,ou=example,dc=example,dc=net
-      #       options:
-      #         filter: (&(objectClass=some-group-class)(!(groupType=email)))
+    ### Example for how to add your enterprise LDAP server
+    # providers:
+    #   - target: ldaps://ds.example.net
+    #     bind:
+    #       dn: uid=ldap-reader-user,ou=people,ou=example,dc=example,dc=net
+    #       secret: { $secret: { env: LDAP_SECRET } }
+    #     users:
+    #       dn: ou=people,ou=example,dc=example,dc=net
+    #       options:
+    #         filter: (uid=*)
+    #       map:
+    #         description: l
+    #     groups:
+    #       dn: ou=access,ou=groups,ou=example,dc=example,dc=net
+    #       options:
+    #         filter: (&(objectClass=some-group-class)(!(groupType=email)))
 
   locations:
     # Backstage example components
@@ -172,14 +175,6 @@ auth:
           $env: AUTH_GOOGLE_CLIENT_ID
         clientSecret:
           $env: AUTH_GOOGLE_CLIENT_SECRET
-    github:
-      development:
-        clientId:
-          $env: AUTH_GITHUB_CLIENT_ID
-        clientSecret:
-          $env: AUTH_GITHUB_CLIENT_SECRET
-        enterpriseInstanceUrl:
-          $env: AUTH_GITHUB_ENTERPRISE_INSTANCE_URL
     gitlab:
       development:
         clientId:
@@ -241,11 +236,10 @@ costInsights:
       name: Big Query
       icon: search
   metrics:
+    dailyCost:
+      name: Your Company's Daily Cost
     DAU:
-      name: Daily Active Users
-      default: true
-    MSC:
-      name: Monthly Subscribers
+      name: Cost Per DAU
 homepage:
   clocks:
     - label: UTC

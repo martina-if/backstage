@@ -35,10 +35,16 @@ spec:
             - name: app-config
               mountPath: {{ printf "/usr/share/nginx/html/static/%s" (include "backstage.appConfigFilename" .) }}
               subPath: {{ include "backstage.appConfigFilename" . }}
+            - name: app-basic-config
+              mountPath: {{ printf "/usr/share/nginx/html/env-config.js" }}
+              subPath:  "env-config.js"
       volumes:
         - name: app-config
           configMap:
             name: {{ include "backstage.fullname" . }}-app-config
+        - name: app-basic-config
+          configMap:
+            name: {{ include "backstage.fullname" . }}-app-basic-config
 {{- if .Values.frontend.enabled }}
 ---
 apiVersion: v1

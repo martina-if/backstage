@@ -55,6 +55,7 @@ import {
 import { useAsync } from 'react-use';
 import { AppIdentity } from './AppIdentity';
 import { ApiResolver, ApiFactoryRegistry } from '../apis/system';
+import ReactGA from 'react-ga';
 
 type FullAppOptions = {
   apis: Iterable<AnyApiFactory>;
@@ -360,5 +361,22 @@ export class PrivateAppImpl implements BackstageApp {
       }
       pluginIds.add(id);
     }
+  }
+
+  setupGoogleAnalytics() {
+    if (this.configLoader === undefined) {
+      return
+    }
+    console.log("setting up GA")
+    this.configLoader()
+      .then(config => ConfigReader.fromConfigs(config ?? []))
+      .then(reader => reader.get('app.googleAnalyticsTrackingId'))
+      .then(trackingId => {
+        console.log("got config. setting up GA")
+        if (trackingId) {
+          ReactGA.initialize(trackingId.toString());
+          ReactGA.pageview(window.location.pathname + window.location.search);
+        }
+      })
   }
 }

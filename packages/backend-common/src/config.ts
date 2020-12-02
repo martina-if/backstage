@@ -20,6 +20,7 @@ import { Logger } from 'winston';
 import { findPaths } from '@backstage/cli-common';
 import { Config, ConfigReader } from '@backstage/config';
 import { loadConfig } from '@backstage/config-loader';
+import AWS from 'aws-sdk';
 
 type Options = {
   logger: Logger;
@@ -43,6 +44,23 @@ export async function loadBackendConfig(options: Options): Promise<Config> {
     shouldReadSecrets: true,
   });
 
+  var ssm = new AWS.SSM({region: 'eu-north-1'});
+  // {
+  //   region: 'localhost',
+  //     endpoint: 'http://localhost:4583',
+  //   accessKeyId: 'someId',
+  //   secretAccessKey: 'someSecret',
+  // }
+
+  await ssm.getParameter({
+    Name: '/prod/test-demo-14/backstage-backend/postgresql-password'
+  })
+    .promise()
+    .then(data -> console.log(data))
+    .catch((err: AWS.AWSError) => {
+      console.error('Failed getting parameter');
+      console.error(err);
+    });
   options.logger.info(
     `Loaded config from ${configs.map(c => c.context).join(', ')}`,
   );

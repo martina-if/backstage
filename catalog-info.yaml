@@ -5,9 +5,9 @@ metadata:
   description: |
     Backstage is an open-source developer portal that puts the developer experience first.
   annotations:
-    github.com/project-slug: spotify/backstage
-    backstage.io/techdocs-ref: github:https://github.com/spotify/backstage.git
+    github.com/project-slug: RoadieHQ/vouch-cluster-automation
+    backstage.io/techdocs-ref: github:https://github.com/RoadieHQ/vouch-cluster-automation.git
 spec:
   type: library
-  owner: Spotify
+  owner: martina
   lifecycle: experimental

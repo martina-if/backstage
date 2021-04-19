@@ -9,9 +9,7 @@ backend:
       port: {{ include "backend.postgresql.port" . | quote }}
       user: {{ include "backend.postgresql.user" . | quote }}
       database: {{ .Values.appConfig.backend.database.connection.database | quote }}
-      ssl:
-        rejectUnauthorized: {{ .Values.appConfig.backend.database.connection.ssl.rejectUnauthorized | quote }}
-        ca: {{ include "backstage.backend.postgresCaFilename" . | quote }}
+      ssl: false
 
 catalog:
 {{- if .Values.backend.demoData }}
